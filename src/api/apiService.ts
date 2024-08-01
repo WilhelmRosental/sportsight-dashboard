@@ -7,14 +7,14 @@ import {
 } from '../data/data';
 import { UserMainData, UserActivity, UserAverageSessions, UserPerformance } from '../types';
 
-const isDevelopment = import.meta.env.MODE === 'development';
+const isMocked = import.meta.env.IS_MOCKED_DATA === true;
 
 const apiClient = axios.create({
-  baseURL: import.meta.env.API_BASE_URL,
+  baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
 export const fetchUserMainData = async (): Promise<UserMainData[]> => {
-  if (isDevelopment) {
+  if (isMocked) {
     return USER_MAIN_DATA;
   }
   const response = await apiClient.get('/userMainData');
@@ -22,7 +22,7 @@ export const fetchUserMainData = async (): Promise<UserMainData[]> => {
 };
 
 export const fetchUserActivity = async (): Promise<UserActivity[]> => {
-  if (isDevelopment) {
+  if (isMocked) {
     return USER_ACTIVITY;
   }
   const response = await apiClient.get('/userActivity');
@@ -30,7 +30,7 @@ export const fetchUserActivity = async (): Promise<UserActivity[]> => {
 };
 
 export const fetchUserAverageSessions = async (): Promise<UserAverageSessions[]> => {
-  if (isDevelopment) {
+  if (isMocked) {
     return USER_AVERAGE_SESSIONS;
   }
   const response = await apiClient.get('/userAverageSessions');
@@ -38,7 +38,7 @@ export const fetchUserAverageSessions = async (): Promise<UserAverageSessions[]>
 };
 
 export const fetchUserPerformance = async (): Promise<UserPerformance[]> => {
-  if (isDevelopment) {
+  if (isMocked) {
     return USER_PERFORMANCE;
   }
   const response = await apiClient.get('/userPerformance');
