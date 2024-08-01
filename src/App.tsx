@@ -14,7 +14,7 @@ import Profile from "./pages/Profile/Profile";
 
 const App: React.FC = () => {
   return (
-    <Router basename="/sportsee">
+    <Router basename="/SportSee-Dashboard/">
       <Topbar />
       <Routes>
         <Route index path="/" element={<Home />} />
