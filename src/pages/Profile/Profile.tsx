@@ -7,7 +7,7 @@ const Profile = () => {
         <div className="profil__content">
           <div className="profil__header-text">
             <h1>
-              Bonjour <span>"Test"</span>
+              Bonjour <span>"Test !"</span>
             </h1>
             <p>Félicitations ! Vous avez explosé vos objectifs hier 👏</p>
           </div>
