@@ -1,0 +1,41 @@
+.profil {
+    margin-left: 117px;
+
+    main {
+        @include flexbox($justify: center);
+
+        .profil__content {
+            padding: 40px 50px 0;
+
+            @include flexbox($direction: column);
+
+            .profil__header-text {
+                h1 {
+                    @include text($fontSize: 48px, $fontWeight: 500);
+
+                    span {
+                        color: $red-1;
+                    }
+                }
+
+                p {
+                    margin-top: 20px;
+                    @include text($fontSize: 18px, $fontWeight: 400);
+                }
+            }
+
+            .profil__charts-stats_container {
+                @include flexbox($gap: 50px);
+
+                .profil__charts-container {
+                    margin-top: 40px;
+                    @include flexbox($direction: column, $gap: 20px);
+
+                    .profil__charts-sub_container {
+                        @include flexbox($gap: 20px);
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,4 +1,3 @@
-// Définition des interfaces pour les données utilisateur
 interface UserInfos {
   firstName: string;
   lastName: string;
@@ -15,7 +14,7 @@ interface KeyData {
 interface UserMainData {
   id: number;
   userInfos: UserInfos;
-  todayScore?: number; // Certaines propriétés peuvent être optionnelles
+  todayScore?: number;
   score?: number;
   keyData: KeyData;
 }
@@ -52,7 +51,6 @@ interface UserPerformance {
   data: PerformanceData[];
 }
 
-// Données des utilisateurs avec typage
 const USER_MAIN_DATA: UserMainData[] = [
   {
     id: 12,
@@ -315,7 +313,6 @@ const USER_PERFORMANCE: UserPerformance[] = [
   },
 ];
 
-// Export des données
 export {
   USER_MAIN_DATA,
   USER_ACTIVITY,

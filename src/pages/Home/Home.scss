@@ -1,0 +1,30 @@
+.home {
+    margin-left: 117px;
+
+    h1 {
+        margin-top: 50px;
+        margin-bottom: 20px;
+
+        @include text($fontSize: 50px, $fontWeight: 400);
+        color: $red-2;
+        text-align: center;
+    }
+
+    &__container {
+        @include flexbox($direction: column, $justify: center, $align: center, $gap: 10px);
+
+        input[type="number"] {
+            padding: 10px;
+            background: grey;
+
+            max-width: 300px;
+            width: 100%;
+
+            color: white;
+            outline: none;
+
+            border: none;
+            border-radius: 5px;
+        }
+    }
+}
