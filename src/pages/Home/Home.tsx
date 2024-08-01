@@ -14,7 +14,7 @@ const Home: React.FC = () => {
       <h1>SportSee Project</h1>
 
       <div className="home__container">
-        <p>Current Environment: {import.meta.env.MODE}</p>
+        <p>API Base URL: {import.meta.env.VITE_API_BASE_URL}</p>
         <label htmlFor="idprofil">
           Enter the id of the profile you want to see:{" "}
         </label>

@@ -10,7 +10,7 @@ import { UserMainData, UserActivity, UserAverageSessions, UserPerformance } from
 const isDevelopment = import.meta.env.MODE === 'development';
 
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: import.meta.env.API_BASE_URL,
 });
 
 export const fetchUserMainData = async (): Promise<UserMainData[]> => {
