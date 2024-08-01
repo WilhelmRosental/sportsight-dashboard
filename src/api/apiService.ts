@@ -13,6 +13,10 @@ const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
+/**
+ * 
+ * @returns 
+ */
 export const fetchUserMainData = async (): Promise<UserMainData[]> => {
   if (isMocked) {
     return USER_MAIN_DATA;
@@ -21,6 +25,10 @@ export const fetchUserMainData = async (): Promise<UserMainData[]> => {
   return response.data;
 };
 
+/**
+ * 
+ * @returns 
+ */
 export const fetchUserActivity = async (): Promise<UserActivity[]> => {
   if (isMocked) {
     return USER_ACTIVITY;
@@ -29,6 +37,10 @@ export const fetchUserActivity = async (): Promise<UserActivity[]> => {
   return response.data;
 };
 
+/**
+ * 
+ * @returns 
+ */
 export const fetchUserAverageSessions = async (): Promise<UserAverageSessions[]> => {
   if (isMocked) {
     return USER_AVERAGE_SESSIONS;
@@ -37,6 +49,10 @@ export const fetchUserAverageSessions = async (): Promise<UserAverageSessions[]>
   return response.data;
 };
 
+/**
+ * 
+ * @returns 
+ */
 export const fetchUserPerformance = async (): Promise<UserPerformance[]> => {
   if (isMocked) {
     return USER_PERFORMANCE;
