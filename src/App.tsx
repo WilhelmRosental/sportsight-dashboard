@@ -2,8 +2,8 @@ import React from "react";
 import {
   BrowserRouter as Router,
   Routes,
-  Route,
   Navigate,
+  Route,
 } from "react-router-dom";
 
 import Topbar from "./components/layout/Topbar/Topbar";
@@ -14,18 +14,16 @@ import Profile from "./pages/Profile/Profile";
 
 const App: React.FC = () => {
   return (
-    <Router>
+    <Router basename="/sportsee">
       <Topbar />
-
       <Routes>
-        <Route index path="/accueil" element={<Home />} />
+        <Route index path="/" element={<Home />} />
 
         <Route path="/profil" element={<Navigate replace to="/" />} />
         <Route path="/profil/:id" element={<Profile />} />
 
-        <Route path="*" element={<Navigate replace to="/accueil" />} />
+        <Route path="*" element={<Navigate replace to="/" />} />
       </Routes>
-
       <Sidenav />
     </Router>
   );
