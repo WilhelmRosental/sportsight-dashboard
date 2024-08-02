@@ -7,7 +7,7 @@ import {
 } from '../data/data';
 import { UserMainData, UserActivity, UserAverageSessions, UserPerformance } from '../types';
 
-const isMocked = import.meta.env.IS_MOCKED_DATA === true;
+const isMocked = import.meta.env.VITE_IS_MOCKED_DATAS === "true";
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -18,6 +18,7 @@ const apiClient = axios.create({
  * @returns 
  */
 export const fetchUserMainData = async (id: number): Promise<UserMainData[]> => {
+  console.log('IS_MOCKED', isMocked)
   if (isMocked) {
     const user = USER_MAIN_DATA.find(user => user.id === id);
     return user ? [user] : [];

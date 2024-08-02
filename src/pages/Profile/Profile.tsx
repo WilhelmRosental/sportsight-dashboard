@@ -2,8 +2,15 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./Profile.scss";
 import { fetchUserMainData } from "../../api/apiService";
+import { UserMainData } from "../../types";
 
-const Profile = () => {
+interface Props {
+  id: number;
+  data: UserMainData[] | null;
+  setData: React.Dispatch<React.SetStateAction<UserMainData[] | null>>;
+}
+
+const Profile: React.FC<Props> = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -11,19 +18,22 @@ const Profile = () => {
 
   useEffect(() => {
     if (!data) {
-      (async () => {
-        fetchUserMainData(id)
-          .then((res) => {
-            setData(res);
-          })
-          .catch((err) => {
-            if (err.response.status === 404) navigate("/");
-          });
-      })();
+      const fetchData = async () => {
+        try {
+          const res = await fetchUserMainData(Number(id));
+          setData(res);
+        } catch (err: any) {
+          if (err.response?.status === 404) navigate("/");
+        }
+      };
+
+      fetchData();
     }
-  });
+  }, [data, id, navigate, setData]);
 
   if (!data) return <div>Loading ...</div>;
+
+  console.log("DATA : ", data);
 
   return (
     <div className="profil">
