@@ -17,11 +17,11 @@ const apiClient = axios.create({
  * 
  * @returns 
  */
-export const fetchUserMainData = async (id: number): Promise<UserMainData[]> => {
-  console.log('IS_MOCKED', isMocked)
+export const fetchUserMainData = async (userId: number): Promise<UserMainData> => {
   if (isMocked) {
-    const user = USER_MAIN_DATA.find(user => user.id === id);
-    return user ? [user] : [];
+    const user = USER_MAIN_DATA.find(user => user.id === userId);
+    if (!user) throw new Error('User not found');
+    return user;
   }
   const response = await apiClient.get('/userMainData');
   return response.data;
