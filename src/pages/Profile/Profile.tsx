@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import "./Profile.scss";
 import { fetchUserMainData } from "../../api/apiService";
 import { UserMainData } from "../../types";
+import StatsBar from "../../components/Stats";
 
 const Profile: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -37,6 +38,16 @@ const Profile: React.FC = () => {
               Bonjour <span>{data.userInfos.firstName}</span>
             </h1>
             <p>Félicitations ! Vous avez explosé vos objectifs hier 👏</p>
+          </div>
+
+          <div className="profil__charts-stats_container">
+            <div className="profil__charts-container">
+              <div className="profil__charts-sub_container"></div>
+            </div>
+
+            <div className="profil__charts-stats">
+              <StatsBar datas={data.keyData} />
+            </div>
           </div>
         </div>
       </main>
