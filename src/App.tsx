@@ -6,11 +6,11 @@ import {
   Route,
 } from "react-router-dom";
 
-import Topbar from "./components/layout/Topbar/Topbar";
-import Sidenav from "./components/layout/Sidenav/Sidenav";
+import Topbar from "./components/Layout/Topbar";
+import Sidenav from "./components/Layout/Sidenav";
 
-import Home from "./pages/Home/Home";
-import Profile from "./pages/Profile/Profile";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
 
 const App: React.FC = () => {
   return (

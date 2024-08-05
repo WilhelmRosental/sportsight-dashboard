@@ -1,6 +1,5 @@
-//Activity
 import React from "react";
-import "./ChartBar.scss";
+import styled from "styled-components";
 import {
   BarChart,
   Bar,
@@ -23,16 +22,51 @@ interface ChartBarProps {
   data: DataItem[];
 }
 
+// Styles using styled-components
+const StyledBarChart = styled(BarChart)`
+  padding: 10px;
+  margin: 10px 5px;
+  width: 100%;
+  height: 100%;
+  background: ${(props) => props.theme.colors.cardBg};
+  border-radius: 5px;
+
+  .recharts-default-legend {
+    padding: 1.1rem 1.8rem !important;
+  }
+`;
+
+const TooltipContainer = styled.div`
+  background: ${(props) => props.theme.colors.red2};
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .label {
+    padding: 15px 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+  }
+`;
+
+const LegendText = styled.span`
+  font-size: 14px;
+  font-weight: 500;
+  color: ${(props) => props.theme.colors.grey3};
+`;
+
 const CustomTooltip: React.FC<TooltipProps<number, string>> = ({
   active,
   payload,
 }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="custom-tooltip">
+      <TooltipContainer>
         <p className="label">{`${payload[0].value}kg`}</p>
         <p className="label">{`${payload[1].value}kCal`}</p>
-      </div>
+      </TooltipContainer>
     );
   }
   return null;
@@ -51,7 +85,7 @@ const ChartBar: React.FC<ChartBarProps> = ({ id, data }) => {
   };
 
   return (
-    <BarChart width={950} height={320} data={data} className="barchart">
+    <StyledBarChart width={950} height={320} data={data}>
       <text x="10" y="30" fontSize={15} fontWeight={500} color="#20253A">
         Activité quotidienne
       </text>
@@ -80,9 +114,9 @@ const ChartBar: React.FC<ChartBarProps> = ({ id, data }) => {
         iconType="circle"
         iconSize={8}
         formatter={(value) => (
-          <span className="legend">
+          <LegendText>
             {displayLegend(value)} ({value})
-          </span>
+          </LegendText>
         )}
       />
 
@@ -100,7 +134,7 @@ const ChartBar: React.FC<ChartBarProps> = ({ id, data }) => {
         radius={[10, 10, 0, 0]}
         barSize={7}
       />
-    </BarChart>
+    </StyledBarChart>
   );
 };
 
