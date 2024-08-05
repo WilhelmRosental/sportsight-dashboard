@@ -72,7 +72,7 @@ const CustomTooltip: React.FC<TooltipProps<number, string>> = ({
   return null;
 };
 
-const ChartBar: React.FC<ChartBarProps> = ({ id, data }) => {
+const ChartBar: React.FC<ChartBarProps> = ({ data }) => {
   const displayLegend = (name: string) => {
     switch (name) {
       case "kg":

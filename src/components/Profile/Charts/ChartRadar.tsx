@@ -24,7 +24,7 @@ const StyledRadarChart = styled(RadarChart)`
   border-radius: 5px;
 `;
 
-const ChartRadar: React.FC<ChartRadarProps> = ({ id, data }) => {
+const ChartRadar: React.FC<ChartRadarProps> = ({ data }) => {
   return (
     <StyledRadarChart
       width={305}

@@ -31,7 +31,7 @@ const ChartRadial: React.FC<ChartRadialProps> = ({ datas }) => {
       outerRadius="90%"
       barSize={10}
       startAngle={90}
-      endAngle={datas[0].value}
+      endAngle={datas}
     >
       <text x="30" y="45" fontSize={18} fontWeight={500}>
         Score

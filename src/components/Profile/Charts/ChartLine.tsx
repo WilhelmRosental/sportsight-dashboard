@@ -62,7 +62,7 @@ const TooltipContainer = styled.div`
   }
 `;
 
-const ChartLine: React.FC<ChartLineProps> = ({ id, data }) => {
+const ChartLine: React.FC<ChartLineProps> = ({ data }) => {
   return (
     <LineChartContainer>
       <LineChartTitle>

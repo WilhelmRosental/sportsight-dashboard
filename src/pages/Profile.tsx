@@ -98,7 +98,7 @@ const Profile: React.FC = () => {
               <ProfileChartsSubContainer>
                 {/* <ChartLine id={id} /> */}
                 {/* <ChartRadar id={id} /> */}
-                {/* <ChartRadial datas={data} /> */}
+                <ChartRadial datas={data} />
               </ProfileChartsSubContainer>
             </ProfileChartsContainer>
 
