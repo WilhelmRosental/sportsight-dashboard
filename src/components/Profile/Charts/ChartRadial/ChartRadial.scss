@@ -1,0 +1,10 @@
+.radialChart {
+    background: $card-bg;
+    border-radius: 5px;
+
+    .scorepie {
+        tspan {
+            color: blue !important;
+        }
+    }
+}

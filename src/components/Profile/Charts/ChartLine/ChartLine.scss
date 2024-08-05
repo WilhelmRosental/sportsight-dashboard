@@ -1,0 +1,38 @@
+.linechart {
+    position: relative;
+
+    width: 305px;
+    height: 263px;
+
+    background: $red-1;
+    border-radius: 5px;
+
+    &-title {
+        position: absolute;
+        top: 25px;
+        left: 20px;
+
+        @include text($fontSize: 15px, $fontWeight: 500);
+        color: rgba(255, 255, 255, 0.795);
+    }
+
+    &__container {
+        position: relative;
+
+        .recharts-surface {
+            position: absolute;
+            bottom: 0;
+            height: 220px !important;
+        }
+
+        .custom-tooltip__chartline {
+            padding: 10px;
+            background: white;
+
+            p {
+                color: black;
+                @include text($fontSize: 12px, $fontWeight: 500);
+            }
+        }
+    }
+}

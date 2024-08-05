@@ -1,0 +1,31 @@
+.barchart {
+    padding: 10px;
+    margin: 10px 5px;
+
+    width: 100%;
+    height: 100%;
+
+    background: $card-bg;
+    border-radius: 5px;
+
+    .custom-tooltip {
+        background: $red-2;
+
+        @include flexbox($direction: column, $justify: center, $align: center);
+        .label {
+            padding: 15px 10px;
+
+            @include text($fontSize: 14px, $fontWeight: 500);
+            color: white;
+        }
+    }
+
+    .legend {
+        @include text($fontSize: 14px, $fontWeight: 500);
+        color: $grey-3;
+    }
+
+    .recharts-default-legend {
+        padding: 1.1rem 1.8rem !important;
+    }
+}
