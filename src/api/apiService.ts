@@ -24,8 +24,8 @@ export const fetchUserMainData = async (userId: number): Promise<UserMainData> =
     if (!user) throw new Error('User not found');
     return user;
   }
-  const response = await apiClient.get(`/userMainData/${userId}`);
-  return response.data;
+  const response = await apiClient.get(`user/${userId}`);
+  return response.data.data;
 };
 
 /**
@@ -39,8 +39,8 @@ export const fetchUserActivity = async (userId: number): Promise<UserActivity> =
     if (!userActivity) throw new Error('User activity not found');
     return userActivity;
   }
-  const response = await apiClient.get(`/userActivity/${userId}`);
-  return response.data;
+  const response = await apiClient.get(`user/${userId}/activity`);
+  return response.data.data;
 };
 
 /**
@@ -54,8 +54,8 @@ export const fetchUserAverageSessions = async (userId: number): Promise<UserAver
     if (!userAverageSessions) throw new Error('User average sessions not found');
     return userAverageSessions;
   }
-  const response = await apiClient.get(`/userAverageSessions/${userId}`);
-  return response.data;
+  const response = await apiClient.get(`user/${userId}/average-sessions`);
+  return response.data.data;
 };
 
 /**
@@ -69,6 +69,6 @@ export const fetchUserPerformance = async (userId: number): Promise<UserPerforma
     if (!userPerformance) throw new Error('User performance not found');
     return userPerformance;
   }
-  const response = await apiClient.get(`/userPerformance/${userId}`);
-  return response.data;
+  const response = await apiClient.get(`user/${userId}/performance`);
+  return response.data.data;
 };
