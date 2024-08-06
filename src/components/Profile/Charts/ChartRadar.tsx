@@ -7,15 +7,10 @@ import {
   PolarAngleAxis,
   PolarRadiusAxis,
 } from "recharts";
-
-interface DataItem {
-  kind: string;
-  value: number;
-}
+import { UserPerformance } from "../../../types";
 
 interface ChartRadarProps {
-  id: number;
-  data: DataItem[];
+  performance: UserPerformance;
 }
 
 //styled-components
@@ -24,7 +19,7 @@ const StyledRadarChart = styled(RadarChart)`
   border-radius: 5px;
 `;
 
-const ChartRadar: React.FC<ChartRadarProps> = ({ data }) => {
+const ChartRadar: React.FC<ChartRadarProps> = ({ performance }) => {
   return (
     <StyledRadarChart
       width={305}
@@ -32,7 +27,7 @@ const ChartRadar: React.FC<ChartRadarProps> = ({ data }) => {
       cx="50%"
       cy="50%"
       outerRadius="80%"
-      data={data}
+      data={performance.data}
     >
       <PolarGrid />
       <PolarAngleAxis dataKey="kind" tick={{ fill: "white", fontSize: 12 }} />

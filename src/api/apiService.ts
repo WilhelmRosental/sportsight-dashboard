@@ -14,8 +14,9 @@ const apiClient = axios.create({
 });
 
 /**
- * 
- * @returns 
+ * Fetches the main user data.
+ * @param userId - The ID of the user.
+ * @returns The main user data.
  */
 export const fetchUserMainData = async (userId: number): Promise<UserMainData> => {
   if (isMocked) {
@@ -23,42 +24,51 @@ export const fetchUserMainData = async (userId: number): Promise<UserMainData> =
     if (!user) throw new Error('User not found');
     return user;
   }
-  const response = await apiClient.get('/userMainData');
+  const response = await apiClient.get(`/userMainData/${userId}`);
   return response.data;
 };
 
 /**
- * 
- * @returns 
+ * Fetches the user activity data.
+ * @param userId - The ID of the user.
+ * @returns The user activity data.
  */
-export const fetchUserActivity = async (): Promise<UserActivity[]> => {
+export const fetchUserActivity = async (userId: number): Promise<UserActivity> => {
   if (isMocked) {
-    return USER_ACTIVITY;
+    const userActivity = USER_ACTIVITY.find(activity => activity.userId === userId);
+    if (!userActivity) throw new Error('User activity not found');
+    return userActivity;
   }
-  const response = await apiClient.get('/userActivity');
+  const response = await apiClient.get(`/userActivity/${userId}`);
   return response.data;
 };
 
 /**
- * 
- * @returns 
+ * Fetches the user average sessions data.
+ * @param userId - The ID of the user.
+ * @returns The user average sessions data.
  */
-export const fetchUserAverageSessions = async (): Promise<UserAverageSessions[]> => {
+export const fetchUserAverageSessions = async (userId: number): Promise<UserAverageSessions> => {
   if (isMocked) {
-    return USER_AVERAGE_SESSIONS;
+    const userAverageSessions = USER_AVERAGE_SESSIONS.find(sessions => sessions.userId === userId);
+    if (!userAverageSessions) throw new Error('User average sessions not found');
+    return userAverageSessions;
   }
-  const response = await apiClient.get('/userAverageSessions');
+  const response = await apiClient.get(`/userAverageSessions/${userId}`);
   return response.data;
 };
 
 /**
- * 
- * @returns 
+ * Fetches the user performance data.
+ * @param userId - The ID of the user.
+ * @returns The user performance data.
  */
-export const fetchUserPerformance = async (): Promise<UserPerformance[]> => {
+export const fetchUserPerformance = async (userId: number): Promise<UserPerformance> => {
   if (isMocked) {
-    return USER_PERFORMANCE;
+    const userPerformance = USER_PERFORMANCE.find(performance => performance.userId === userId);
+    if (!userPerformance) throw new Error('User performance not found');
+    return userPerformance;
   }
-  const response = await apiClient.get('/userPerformance');
+  const response = await apiClient.get(`/userPerformance/${userId}`);
   return response.data;
 };

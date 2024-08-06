@@ -1,6 +1,7 @@
 import React from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip } from "recharts";
 import styled from "styled-components";
+import { AverageSession } from "../../../types";
 
 interface CustomTooltipProps {
   active?: boolean;
@@ -8,7 +9,7 @@ interface CustomTooltipProps {
 }
 
 const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
-  if (active && payload) {
+  if (active && payload && payload.length) {
     return (
       <TooltipContainer>
         <p>{payload[0].value} min</p>
@@ -19,8 +20,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
 };
 
 interface ChartLineProps {
-  id: number;
-  data: { day: string; sessionLength: number }[];
+  sessions: AverageSession[];
 }
 
 //styled-components
@@ -62,7 +62,14 @@ const TooltipContainer = styled.div`
   }
 `;
 
-const ChartLine: React.FC<ChartLineProps> = ({ data }) => {
+const days = ["L", "M", "M", "J", "V", "S", "D"];
+
+const ChartLine: React.FC<ChartLineProps> = ({ sessions }) => {
+  const transformedData = sessions.map((item) => ({
+    ...item,
+    day: days[item.day - 1], // Transform day number to day letter
+  }));
+
   return (
     <LineChartContainer>
       <LineChartTitle>
@@ -70,7 +77,7 @@ const ChartLine: React.FC<ChartLineProps> = ({ data }) => {
         sessions
       </LineChartTitle>
 
-      <StyledLineChart width={305} height={263} data={data}>
+      <StyledLineChart width={305} height={263} data={transformedData}>
         <XAxis
           dataKey="day"
           tick={{

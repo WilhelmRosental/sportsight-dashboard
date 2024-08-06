@@ -1,9 +1,22 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { fetchUserMainData } from "../api/apiService";
-import { UserMainData } from "../types";
+import {
+  fetchUserMainData,
+  fetchUserActivity,
+  fetchUserAverageSessions,
+  fetchUserPerformance,
+} from "../api/apiService";
+import {
+  UserMainData,
+  UserActivity,
+  UserAverageSessions,
+  UserPerformance,
+} from "../types";
 
+import ChartBar from "../components/Profile/Charts/ChartBar";
+import ChartLine from "../components/Profile/Charts/ChartLine";
+import ChartRadar from "../components/Profile/Charts/ChartRadar";
 import ChartRadial from "../components/Profile/Charts/ChartRadial";
 import StatsBar from "../components/Profile/Stats";
 
@@ -56,17 +69,35 @@ const ProfileChartsSubContainer = styled.div`
   gap: 20px;
 `;
 
+interface ProfileData {
+  mainData: UserMainData | null;
+  activity: UserActivity | null;
+  averageSessions: UserAverageSessions | null;
+  performance: UserPerformance | null;
+}
+
 const Profile: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const [data, setData] = useState<UserMainData | null>(null);
+  const [data, setData] = useState<ProfileData>({
+    mainData: null,
+    activity: null,
+    averageSessions: null,
+    performance: null,
+  });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetchUserMainData(Number(id));
-        setData(res);
+        const [mainData, activity, averageSessions, performance] =
+          await Promise.all([
+            fetchUserMainData(Number(id)),
+            fetchUserActivity(Number(id)),
+            fetchUserAverageSessions(Number(id)),
+            fetchUserPerformance(Number(id)),
+          ]);
+        setData({ mainData, activity, averageSessions, performance });
       } catch (err: any) {
         console.error(err);
         if (err.response?.status === 404) navigate("/");
@@ -76,7 +107,14 @@ const Profile: React.FC = () => {
     fetchData();
   }, [id, navigate]);
 
-  if (!data) return <div>Loading ...</div>;
+  if (
+    !data.mainData ||
+    !data.activity ||
+    !data.averageSessions ||
+    !data.performance
+  ) {
+    return <div>Loading ...</div>;
+  }
 
   console.log("DATA : ", data);
 
@@ -86,24 +124,24 @@ const Profile: React.FC = () => {
         <ProfileContent>
           <ProfileHeaderText>
             <h1>
-              Bonjour <span>{data.userInfos.firstName}</span>
+              Bonjour <span>{data.mainData.userInfos.firstName}</span>
             </h1>
             <p>Félicitations ! Vous avez explosé vos objectifs hier 👏</p>
           </ProfileHeaderText>
 
           <ProfileChartsStatsContainer>
             <ProfileChartsContainer>
-              {/* <ChartBar id={id} /> */}
+              <ChartBar activity={data.activity.sessions} />
 
               <ProfileChartsSubContainer>
-                {/* <ChartLine id={id} /> */}
-                {/* <ChartRadar id={id} /> */}
-                <ChartRadial datas={data} />
+                <ChartLine sessions={data.averageSessions.sessions} />
+                <ChartRadar performance={data.performance} />
+                <ChartRadial datas={data.mainData} />
               </ProfileChartsSubContainer>
             </ProfileChartsContainer>
 
             <div className="profil__charts-stats">
-              <StatsBar datas={data.keyData} />
+              <StatsBar datas={data.mainData.keyData} />
             </div>
           </ProfileChartsStatsContainer>
         </ProfileContent>
