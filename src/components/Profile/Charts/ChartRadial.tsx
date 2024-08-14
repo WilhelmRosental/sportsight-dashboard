@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { RadialBarChart, RadialBar } from "recharts";
 import styled from "styled-components";
 import { UserMainData } from "../../../types";
@@ -13,35 +13,43 @@ const StyledRadialBarChart = styled(RadialBarChart)`
   border-radius: 5px;
 `;
 
-const StyledText = styled.text`
-  tspan {
-    color: blue !important;
-  }
-`;
-
 const ChartRadial: React.FC<ChartRadialProps> = ({ datas }) => {
+  const [data, setData] = useState(() => {
+    return {
+      ...datas,
+      todayScore: datas.todayScore || datas.score || 0,
+    };
+  });
+
+  console.log("MAIN ", data);
+
+  if (!data) return <div></div>;
+
+  const scorePercentage = (data.todayScore || 0) * 100;
+  const endAngle = scorePercentage * 3.6 + 90; // Convertir le score en angle pour le graphique
+
   return (
     <StyledRadialBarChart
       width={305}
       height={263}
-      data={[datas]}
+      data={[data]}
       cx="50%"
       cy="50%"
       innerRadius="65%"
       outerRadius="90%"
       barSize={10}
       startAngle={90}
-      endAngle={datas}
+      endAngle={endAngle} // Utiliser l'angle correct pour afficher le bon pourcentage
     >
       <text x="30" y="45" fontSize={18} fontWeight={500}>
         Score
       </text>
-      <RadialBar dataKey="value" cornerRadius={5} fill="red" />
+      <RadialBar dataKey="todayScore" cornerRadius={5} fill="red" />
 
       <circle cx="50%" cy="50%" r="77" fill="white" />
-      <StyledText x="30" y="45" fontSize={18} fontWeight={500}>
+      <text x="30" y="45" fontSize={18} fontWeight={500}>
         <tspan x="125" y="120" fontSize={30} fill="#282D30">
-          {(datas.todayScore ?? 0) * 100} %
+          {data.todayScore * 100} %
         </tspan>
         <tspan x="118" y="150" fill="#74798c">
           de votre
@@ -49,7 +57,7 @@ const ChartRadial: React.FC<ChartRadialProps> = ({ datas }) => {
         <tspan x="120" y="175" fill="#74798c">
           objectif
         </tspan>
-      </StyledText>
+      </text>
     </StyledRadialBarChart>
   );
 };

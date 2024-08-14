@@ -42,13 +42,26 @@ const Img = styled.img`
   height: 32px;
 `;
 
+const CopyRight = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto;
+  margin-bottom: auto;
+  height: max-content;
+`;
+
 const P = styled.p`
   font-size: 12px;
   font-weight: 500;
-  writing-mode: sideways-lr;
-  text-orientation: mixed;
+  width: max-content;
+  /* writing-mode: sideways-lr; */
+  /* text-orientation: mixed; */
   color: white;
-  transform: translate(43%, 100%);
+  /* transform: translate(43%, 100%); */
+  transform: rotate(270deg);
+  transform-origin: left top;
+  margin: auto;
 `;
 
 const Sidebar: React.FC = () => {
@@ -68,7 +81,9 @@ const Sidebar: React.FC = () => {
           <Img src={Strength} alt="Musculation" />
         </Li>
       </Ul>
-      <P>Copyright, SportSee 2020</P>
+      <CopyRight>
+        <P>Copyright, SportSee 2020</P>
+      </CopyRight>
     </Sidenav>
   );
 };

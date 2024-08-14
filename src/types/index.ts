@@ -31,7 +31,7 @@ export interface UserActivity {
 }
 
 export interface AverageSession {
-  day: number;
+  day: any;
   sessionLength: number;
 }
 
@@ -42,11 +42,11 @@ export interface UserAverageSessions {
 
 export interface PerformanceData {
   value: number;
-  kind: number;
+  kind: number | string;
 }
 
 export interface UserPerformance {
   userId: number;
-  kind: Record<number, string>;
+  kind: Record<number, string> | string[];
   data: PerformanceData[];
 }

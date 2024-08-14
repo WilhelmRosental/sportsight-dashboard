@@ -62,14 +62,7 @@ const TooltipContainer = styled.div`
   }
 `;
 
-const days = ["L", "M", "M", "J", "V", "S", "D"];
-
 const ChartLine: React.FC<ChartLineProps> = ({ sessions }) => {
-  const transformedData = sessions.map((item) => ({
-    ...item,
-    day: days[item.day - 1], // Transform day number to day letter
-  }));
-
   return (
     <LineChartContainer>
       <LineChartTitle>
@@ -77,7 +70,7 @@ const ChartLine: React.FC<ChartLineProps> = ({ sessions }) => {
         sessions
       </LineChartTitle>
 
-      <StyledLineChart width={305} height={263} data={transformedData}>
+      <StyledLineChart width={305} height={263} data={sessions}>
         <XAxis
           dataKey="day"
           tick={{

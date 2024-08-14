@@ -97,7 +97,12 @@ const Profile: React.FC = () => {
             fetchUserAverageSessions(Number(id)),
             fetchUserPerformance(Number(id)),
           ]);
-        setData({ mainData, activity, averageSessions, performance });
+        setData({
+          mainData,
+          activity,
+          averageSessions,
+          performance,
+        });
       } catch (err: any) {
         console.error(err);
         if (err.response?.status === 404) navigate("/");
