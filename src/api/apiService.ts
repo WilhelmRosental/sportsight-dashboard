@@ -34,11 +34,11 @@ export const fetchUserMainData = async (userId: number): Promise<UserMainData> =
  * @returns The user activity data.
  */
 export const fetchUserActivity = async (userId: number): Promise<UserActivity> => {
-  // Fonction pour transformer les jours en index
+  // On transforme les jours en index
   const transformDaysToIndex = (sessions: UserActivity['sessions']): UserActivity['sessions'] => {
     return sessions.map((session, index) => ({
       ...session,
-      day: (index + 1).toString(), // Remplace la date par l'index (commençant à 1)
+      day: (index + 1).toString(),
     }));
   };
 
@@ -46,7 +46,6 @@ export const fetchUserActivity = async (userId: number): Promise<UserActivity> =
     const userActivity = USER_ACTIVITY.find(activity => activity.userId === userId);
     if (!userActivity) throw new Error('User activity not found');
 
-    // Transformer les jours si les données sont mockées
     userActivity.sessions = transformDaysToIndex(userActivity.sessions);
     return userActivity;
   }
@@ -57,7 +56,7 @@ export const fetchUserActivity = async (userId: number): Promise<UserActivity> =
     throw new Error('Invalid API response');
   }
 
-  // Transformer les jours dans la réponse API
+  // On formatte les jours
   const sessions = transformDaysToIndex(response.data.data.sessions);
 
   return {
@@ -72,8 +71,12 @@ export const fetchUserActivity = async (userId: number): Promise<UserActivity> =
  * @returns The user performance data.
  */
 export const fetchUserPerformance = async (userId: number): Promise<UserPerformance> => {
-  // Fonction pour formatter le nom du kind
-  const sort = (name: string): string => {
+  const sort = (name?: string): string => {
+    if (typeof name !== 'string' || !name) {
+      console.error('Name is undefined or not a string:', name);
+      return 'Inconnu'; // Retournez une valeur par défaut, comme 'Inconnu', si name est undefined
+    }
+
     switch (name) {
       case "cardio":
         return "Cardio";
@@ -92,30 +95,31 @@ export const fetchUserPerformance = async (userId: number): Promise<UserPerforma
     }
   };
 
-  // Vérification si les données sont mockées
   if (isMocked) {
     const userPerformance = USER_PERFORMANCE.find(performance => performance.userId === userId);
     if (!userPerformance) throw new Error('User performance not found');
 
-    // Appliquer le formattage
-    userPerformance.data.forEach((item, index) => {
-      item.kind = sort(userPerformance.kind[item.kind]);
+    // On applique le formattage
+    userPerformance.data.forEach((item) => {
+      const kindName = userPerformance.kind[item.kind as keyof typeof userPerformance.kind];
+      item.kind = sort(kindName);
     });
 
     return userPerformance;
   }
 
-  // Requête API
+  // Requête avec axios
   const response = await apiClient.get<{ data: UserPerformance }>(`user/${userId}/performance`);
 
   if (!response.data || !response.data.data) {
     throw new Error('Invalid API response');
   }
 
-  // Appliquer le formattage sur les données récupérées
+  // On applique le formattage
   const userPerformance = response.data.data;
-  userPerformance.data.forEach((item, index) => {
-    item.kind = sort(userPerformance.kind[item.kind]);
+  userPerformance.data.forEach((item) => {
+    const kindKey = item.kind as keyof typeof userPerformance.kind;
+    item.kind = sort(userPerformance.kind[kindKey]);
   });
 
   return userPerformance;
@@ -131,7 +135,6 @@ export const fetchUserAverageSessions = async (userId: number, nameByDay: boolea
   // Tableau des abréviations des jours de la semaine
   const days = ["L", "M", "M", "J", "V", "S", "D"];
 
-  // Vérification si les données sont mockées
   if (isMocked) {
     const userAverageSessions = USER_AVERAGE_SESSIONS.find(sessions => sessions.userId === userId);
     if (!userAverageSessions) throw new Error('User average sessions not found');
@@ -147,14 +150,14 @@ export const fetchUserAverageSessions = async (userId: number, nameByDay: boolea
     return userAverageSessions;
   }
 
-  // Requête API
+  // Requête axios
   const response = await apiClient.get<{ data: UserAverageSessions }>(`user/${userId}/average-sessions`);
 
   if (!response.data || !response.data.data) {
     throw new Error('Invalid API response');
   }
 
-  // Transformation des jours si nameByDay est vrai
+  // On formatte
   let sessions = response.data.data.sessions;
   if (nameByDay) {
     sessions = sessions.map((session, index) => ({

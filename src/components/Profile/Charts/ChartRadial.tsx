@@ -14,12 +14,12 @@ const StyledRadialBarChart = styled(RadialBarChart)`
 `;
 
 const ChartRadial: React.FC<ChartRadialProps> = ({ datas }) => {
-  const [data, setData] = useState(() => {
+  const data = useState(() => {
     return {
       ...datas,
       todayScore: datas.todayScore || datas.score || 0,
     };
-  });
+  })[0];
 
   console.log("MAIN ", data);
 
