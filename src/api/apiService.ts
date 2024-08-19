@@ -8,6 +8,7 @@ import {
 import { UserMainData, UserActivity, UserAverageSessions, UserPerformance } from '../types';
 
 const isMocked = import.meta.env.VITE_IS_MOCKED_DATAS === "true";
+console.log('isMocked : ', isMocked);
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -71,41 +72,25 @@ export const fetchUserActivity = async (userId: number): Promise<UserActivity> =
  * @returns The user performance data.
  */
 export const fetchUserPerformance = async (userId: number): Promise<UserPerformance> => {
-  const sort = (name?: string): string => {
-    if (typeof name !== 'string' || !name) {
-      console.error('Name is undefined or not a string:', name);
-      return 'Inconnu'; // Retournez une valeur par défaut, comme 'Inconnu', si name est undefined
-    }
-
-    switch (name) {
-      case "cardio":
-        return "Cardio";
-      case "energy":
-        return "Energie";
-      case "endurance":
-        return "Endurance";
-      case "strength":
-        return "Force";
-      case "speed":
-        return "Vitesse";
-      case "intensity":
-        return "Intensité";
-      default:
-        return name.charAt(0).toUpperCase() + name.slice(1);
-    }
-  };
-
   if (isMocked) {
     const userPerformance = USER_PERFORMANCE.find(performance => performance.userId === userId);
     if (!userPerformance) throw new Error('User performance not found');
 
     // On applique le formattage
-    userPerformance.data.forEach((item) => {
-      const kindName = userPerformance.kind[item.kind as keyof typeof userPerformance.kind];
-      item.kind = sort(kindName);
+    const formattedData = userPerformance.data.map((item) => {
+      const kindName = userPerformance.kind[item.kind as keyof typeof userPerformance.kind].toLocaleUpperCase();
+
+      const newData = {
+        ...item,
+        kind: kindName
+      }
+      return newData;
     });
 
-    return userPerformance;
+    return {
+      ...userPerformance,
+      data: formattedData,
+    };
   }
 
   // Requête avec axios
@@ -117,12 +102,20 @@ export const fetchUserPerformance = async (userId: number): Promise<UserPerforma
 
   // On applique le formattage
   const userPerformance = response.data.data;
-  userPerformance.data.forEach((item) => {
-    const kindKey = item.kind as keyof typeof userPerformance.kind;
-    item.kind = sort(userPerformance.kind[kindKey]);
+  const formattedData = userPerformance.data.map((item) => {
+    const kindName = userPerformance.kind[item.kind as keyof typeof userPerformance.kind].toLocaleUpperCase();
+
+    const newData = {
+      ...item,
+      kind: kindName
+    }
+    return newData;
   });
 
-  return userPerformance;
+  return {
+    ...userPerformance,
+    data: formattedData,
+  };
 };
 
 

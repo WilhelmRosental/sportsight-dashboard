@@ -13,7 +13,7 @@ const Sidenav = styled.nav`
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   background: black;
 `;
 
@@ -48,18 +48,14 @@ const CopyRight = styled.div`
   align-items: center;
   margin-top: auto;
   margin-bottom: auto;
-  height: max-content;
+  transform: rotate(270deg);
+  width: max-content;
 `;
 
 const P = styled.p`
   font-size: 12px;
   font-weight: 500;
-  width: max-content;
-  /* writing-mode: sideways-lr; */
-  /* text-orientation: mixed; */
   color: white;
-  /* transform: translate(43%, 100%); */
-  transform: rotate(270deg);
   transform-origin: left top;
   margin: auto;
 `;
