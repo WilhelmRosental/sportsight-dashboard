@@ -118,7 +118,6 @@ export const fetchUserPerformance = async (userId: number): Promise<UserPerforma
   };
 };
 
-
 /**
  * Fetches the user average sessions data.
  * @param userId - The ID of the user.
@@ -155,7 +154,7 @@ export const fetchUserAverageSessions = async (userId: number, nameByDay: boolea
   if (nameByDay) {
     sessions = sessions.map((session, index) => ({
       ...session,
-      day: days[index % 7], // Convertit l'index du tableau en lettre correspondante
+      day: days[index % 7],
     }));
   }
 

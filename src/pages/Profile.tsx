@@ -121,8 +121,6 @@ const Profile: React.FC = () => {
     return <div>Loading ...</div>;
   }
 
-  console.log("DATA : ", data);
-
   return (
     <ProfileContainer>
       <Main>
