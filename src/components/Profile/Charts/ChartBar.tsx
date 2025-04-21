@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 import {
   BarChart,
   Bar,
@@ -10,46 +9,14 @@ import {
   Legend,
   TooltipProps,
 } from "recharts";
-import { Session } from "../../../types"; // Assurez-vous que le chemin est correct
+import Card from "@mui/material/Card";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { Session } from "../../../types";
 
 interface ChartBarProps {
   activity: Session[];
 }
-
-// Styles using styled-components
-const StyledBarChart = styled(BarChart)`
-  padding: 10px;
-  margin: 10px 5px;
-  width: 100%;
-  height: 100%;
-  background: ${(props) => props.theme.colors.cardBg};
-  border-radius: 5px;
-
-  .recharts-default-legend {
-    padding: 1.1rem 1.8rem !important;
-  }
-`;
-
-const TooltipContainer = styled.div`
-  background: ${(props) => props.theme.colors.red2};
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  .label {
-    padding: 15px 10px;
-    font-size: 14px;
-    font-weight: 500;
-    color: white;
-  }
-`;
-
-const LegendText = styled.span`
-  font-size: 14px;
-  font-weight: 500;
-  color: ${(props) => props.theme.colors.grey3};
-`;
 
 const CustomTooltip: React.FC<TooltipProps<number, string>> = ({
   active,
@@ -57,78 +24,115 @@ const CustomTooltip: React.FC<TooltipProps<number, string>> = ({
 }) => {
   if (active && payload && payload.length) {
     return (
-      <TooltipContainer>
-        <p className="label">{`${payload[0].value}kg`}</p>
-        <p className="label">{`${payload[1].value}kCal`}</p>
-      </TooltipContainer>
+      <Box
+        sx={{
+          background: (theme) => theme.palette.error.light,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 1,
+          p: 0,
+        }}
+      >
+        <Typography
+          sx={{ p: "15px 10px", fontSize: 14, fontWeight: 500, color: "white" }}
+        >
+          {`${payload[0].value}kg`}
+        </Typography>
+        <Typography
+          sx={{ p: "15px 10px", fontSize: 14, fontWeight: 500, color: "white" }}
+        >
+          {`${payload[1].value}kCal`}
+        </Typography>
+      </Box>
     );
   }
   return null;
 };
 
+const displayLegend = (name: string) => {
+  switch (name) {
+    case "kg":
+      return "Poids";
+    case "kCal":
+      return "Calories brûlées";
+    default:
+      return "";
+  }
+};
+
 const ChartBar: React.FC<ChartBarProps> = ({ activity }) => {
-  const displayLegend = (name: string) => {
-    switch (name) {
-      case "kg":
-        return "Poids";
-      case "kCal":
-        return "Calories brûlées";
-      default:
-        return "";
-    }
-  };
-
   return (
-    <StyledBarChart width={950} height={320} data={activity}>
-      <text x="10" y="30" fontSize={15} fontWeight={500} color="#20253A">
-        Activité quotidienne
-      </text>
-
-      <CartesianGrid strokeDasharray="3 3" vertical={false} axisLine={false} />
-
-      <XAxis
-        dataKey="day"
-        tickLine={false}
-        tickMargin={10}
-        tickFormatter={(value) => value}
-      />
-      <YAxis
-        orientation="right"
-        tickLine={false}
-        axisLine={false}
-        tickMargin={10}
-      />
-
-      <Tooltip content={<CustomTooltip />} />
-
-      <Legend
-        verticalAlign="top"
-        align="right"
-        height={64}
-        iconType="circle"
-        iconSize={8}
-        formatter={(value) => (
-          <LegendText>
-            {displayLegend(value)} ({value})
-          </LegendText>
-        )}
-      />
-
-      <Bar
-        dataKey="kilogram"
-        name="kg"
-        fill="#282D30"
-        radius={[10, 10, 0, 0]}
-        barSize={7}
-      />
-      <Bar
-        dataKey="calories"
-        name="kCal"
-        fill="#E60000"
-        radius={[10, 10, 0, 0]}
-        barSize={7}
-      />
-    </StyledBarChart>
+    <Card
+      sx={{
+        p: "10px",
+        m: "10px 5px",
+        width: "100%",
+        height: "100%",
+        bgcolor: (theme) => theme.palette.background.paper,
+        borderRadius: 1,
+        boxShadow: "none",
+        overflow: "visible",
+      }}
+    >
+      <BarChart width={950} height={320} data={activity}>
+        <text x="10" y="30" fontSize={15} fontWeight={500} fill="#20253A">
+          Activité quotidienne
+        </text>
+        <CartesianGrid
+          strokeDasharray="3 3"
+          vertical={false}
+          axisLine={false}
+        />
+        <XAxis
+          dataKey="day"
+          tickLine={false}
+          tickMargin={10}
+          tickFormatter={(value) => value}
+        />
+        <YAxis
+          orientation="right"
+          tickLine={false}
+          axisLine={false}
+          tickMargin={10}
+        />
+        <Tooltip content={<CustomTooltip />} />
+        <Legend
+          verticalAlign="top"
+          align="right"
+          height={64}
+          iconType="circle"
+          iconSize={8}
+          formatter={(value) => (
+            <Typography
+              component="span"
+              sx={{
+                fontSize: 14,
+                fontWeight: 500,
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              {displayLegend(value)} ({value})
+            </Typography>
+          )}
+        />
+        <Bar
+          dataKey="kilogram"
+          name="kg"
+          fill="#282D30"
+          radius={[10, 10, 0, 0]}
+          barSize={7}
+        />
+        <Bar
+          dataKey="calories"
+          name="kCal"
+          fill="#E60000"
+          radius={[10, 10, 0, 0]}
+          barSize={7}
+        />
+      </BarChart>
+    </Card>
   );
 };
 

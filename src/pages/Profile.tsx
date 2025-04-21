@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import { Box, Typography, Paper } from "@mui/material";
 import {
   fetchUserMainData,
   fetchUserActivity,
@@ -19,55 +19,6 @@ import ChartLine from "../components/Profile/Charts/ChartLine";
 import ChartRadar from "../components/Profile/Charts/ChartRadar";
 import ChartRadial from "../components/Profile/Charts/ChartRadial";
 import StatsBar from "../components/Profile/Stats";
-
-const ProfileContainer = styled.div`
-  margin-left: 117px;
-`;
-
-const Main = styled.main`
-  display: flex;
-  justify-content: center;
-`;
-
-const ProfileContent = styled.div`
-  padding: 40px 50px 0;
-  display: flex;
-  flex-direction: column;
-`;
-
-const ProfileHeaderText = styled.div`
-  h1 {
-    font-size: 48px;
-    font-weight: 500;
-
-    span {
-      color: #e60000; /* remplace $red-1 par la valeur exacte de cette variable SCSS */
-    }
-  }
-
-  p {
-    margin-top: 20px;
-    font-size: 18px;
-    font-weight: 400;
-  }
-`;
-
-const ProfileChartsStatsContainer = styled.div`
-  display: flex;
-  gap: 50px;
-`;
-
-const ProfileChartsContainer = styled.div`
-  margin-top: 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`;
-
-const ProfileChartsSubContainer = styled.div`
-  display: flex;
-  gap: 20px;
-`;
 
 interface ProfileData {
   mainData: UserMainData | null;
@@ -122,34 +73,47 @@ const Profile: React.FC = () => {
   }
 
   return (
-    <ProfileContainer>
-      <Main>
-        <ProfileContent>
-          <ProfileHeaderText>
-            <h1>
-              Bonjour <span>{data.mainData.userInfos.firstName}</span>
-            </h1>
-            <p>Félicitations ! Vous avez explosé vos objectifs hier 👏</p>
-          </ProfileHeaderText>
+    <Box sx={{ marginLeft: "117px" }}>
+      <Box component="main" sx={{ display: "flex", justifyContent: "center" }}>
+        <Box
+          sx={{
+            padding: "40px 50px 0",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Box sx={{ mb: 4 }}>
+            <Typography variant="h1" sx={{ fontSize: 48, fontWeight: 500 }}>
+              Bonjour{" "}
+              <Box component="span" sx={{ color: "#e60000" }}>
+                {data.mainData.userInfos.firstName}
+              </Box>
+            </Typography>
+            <Typography sx={{ mt: 2, fontSize: 18, fontWeight: 400 }}>
+              Félicitations ! Vous avez explosé vos objectifs hier 👏
+            </Typography>
+          </Box>
 
-          <ProfileChartsStatsContainer>
-            <ProfileChartsContainer>
+          <Box sx={{ display: "flex", gap: "50px" }}>
+            <Box
+              sx={{ mt: 5, display: "flex", flexDirection: "column", gap: 2.5 }}
+            >
               <ChartBar activity={data.activity.sessions} />
 
-              <ProfileChartsSubContainer>
+              <Box sx={{ display: "flex", gap: 2.5 }}>
                 <ChartLine sessions={data.averageSessions.sessions} />
                 <ChartRadar performance={data.performance} />
                 <ChartRadial datas={data.mainData} />
-              </ProfileChartsSubContainer>
-            </ProfileChartsContainer>
+              </Box>
+            </Box>
 
-            <div className="profil__charts-stats">
+            <Box>
               <StatsBar datas={data.mainData.keyData} />
-            </div>
-          </ProfileChartsStatsContainer>
-        </ProfileContent>
-      </Main>
-    </ProfileContainer>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

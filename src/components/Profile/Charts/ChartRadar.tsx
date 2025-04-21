@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import Card from "@mui/material/Card";
 import {
   Radar,
   RadarChart,
@@ -13,32 +13,40 @@ interface ChartRadarProps {
   performance: UserPerformance;
 }
 
-//styled-components
-const StyledRadarChart = styled(RadarChart)`
-  background: ${(props) => props.theme.colors.grey1};
-  border-radius: 5px;
-`;
-
 const ChartRadar: React.FC<ChartRadarProps> = ({ performance }) => {
   return (
-    <StyledRadarChart
-      width={305}
-      height={263}
-      cx="50%"
-      cy="50%"
-      outerRadius="80%"
-      data={performance.data}
+    <Card
+      sx={{
+        width: 305,
+        height: 263,
+        borderRadius: 1,
+        bgcolor: (theme) => theme.palette.grey[900],
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        boxShadow: "none",
+        position: "relative",
+      }}
     >
-      <PolarGrid />
-      <PolarAngleAxis dataKey="kind" tick={{ fill: "white", fontSize: 12 }} />
-      <PolarRadiusAxis axisLine={false} tick={false} />
-      <Radar
-        name="Performance"
-        dataKey="value"
-        fill="#FF0101"
-        fillOpacity={0.7}
-      />
-    </StyledRadarChart>
+      <RadarChart
+        width={305}
+        height={263}
+        cx="50%"
+        cy="50%"
+        outerRadius="80%"
+        data={performance.data}
+      >
+        <PolarGrid />
+        <PolarAngleAxis dataKey="kind" tick={{ fill: "white", fontSize: 12 }} />
+        <PolarRadiusAxis axisLine={false} tick={false} />
+        <Radar
+          name="Performance"
+          dataKey="value"
+          fill="#FF0101"
+          fillOpacity={0.7}
+        />
+      </RadarChart>
+    </Card>
   );
 };
 

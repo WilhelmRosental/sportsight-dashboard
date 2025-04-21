@@ -1,86 +1,102 @@
 import React from "react";
-import styled from "styled-components";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import Meditation from "../../assets/icons/meditation.svg";
 import Swimming from "../../assets/icons/swimming.svg";
 import Cycling from "../../assets/icons/cycling.svg";
 import Strength from "../../assets/icons/strength-training.svg";
 
-const Sidenav = styled.nav`
-  position: fixed;
-  top: 0;
-  padding-top: 91px;
-  width: 117px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  background: black;
-`;
-
-const Ul = styled.ul`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-`;
-
-const Li = styled.li`
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 64px;
-  height: 64px;
-  background-color: white;
-  border-radius: 6px;
-`;
-
-const Img = styled.img`
-  max-width: 37px;
-  width: 100%;
-  height: 32px;
-`;
-
-const CopyRight = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: auto;
-  margin-bottom: auto;
-  transform: rotate(270deg);
-  width: max-content;
-`;
-
-const P = styled.p`
-  font-size: 12px;
-  font-weight: 500;
-  color: white;
-  transform-origin: left top;
-  margin: auto;
-`;
+const iconData = [
+  { src: Meditation, alt: "Meditation" },
+  { src: Swimming, alt: "Natation" },
+  { src: Cycling, alt: "Velo" },
+  { src: Strength, alt: "Musculation" },
+];
 
 const Sidebar: React.FC = () => {
   return (
-    <Sidenav>
-      <Ul>
-        <Li>
-          <Img src={Meditation} alt="Meditation" />
-        </Li>
-        <Li>
-          <Img src={Swimming} alt="Natation" />
-        </Li>
-        <Li>
-          <Img src={Cycling} alt="Velo" />
-        </Li>
-        <Li>
-          <Img src={Strength} alt="Musculation" />
-        </Li>
-      </Ul>
-      <CopyRight>
-        <P>Copyright, SportSee 2020</P>
-      </CopyRight>
-    </Sidenav>
+    <Drawer
+      variant="permanent"
+      anchor="left"
+      PaperProps={{
+        sx: {
+          width: 117,
+          bgcolor: "black",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          pt: "91px",
+          justifyContent: "space-between",
+          borderRight: "none",
+        },
+      }}
+    >
+      <List
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 2,
+        }}
+      >
+        {iconData.map((icon, idx) => (
+          <ListItem
+            key={icon.alt}
+            sx={{
+              cursor: "pointer",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: 64,
+              height: 64,
+              bgcolor: "white",
+              borderRadius: 1.5,
+              mb: idx === iconData.length - 1 ? 0 : 0,
+              p: 0,
+            }}
+          >
+            <Box
+              component="img"
+              src={icon.src}
+              alt={icon.alt}
+              sx={{
+                maxWidth: 37,
+                width: "100%",
+                height: 32,
+                objectFit: "contain",
+              }}
+            />
+          </ListItem>
+        ))}
+      </List>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          mt: "auto",
+          mb: "auto",
+          transform: "rotate(270deg)",
+          width: "max-content",
+        }}
+      >
+        <Typography
+          variant="body2"
+          sx={{
+            fontSize: 12,
+            fontWeight: 500,
+            color: "white",
+            m: "auto",
+            transformOrigin: "left top",
+          }}
+        >
+          Copyright, SportSee 2020
+        </Typography>
+      </Box>
+    </Drawer>
   );
 };
 

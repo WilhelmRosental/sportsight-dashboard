@@ -1,38 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, ChangeEvent } from "react";
-import styled from "styled-components";
-
-const HomeContainer = styled.div`
-  margin-left: 117px;
-
-  h1 {
-    margin-top: 50px;
-    margin-bottom: 20px;
-    font-size: 50px;
-    font-weight: 400;
-    color: #d32f2f; /* remplace $red-2 par la valeur exacte de cette variable SCSS */
-    text-align: center;
-  }
-`;
-
-const HomeContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-
-  input[type="number"] {
-    padding: 10px;
-    background: grey;
-    max-width: 300px;
-    width: 100%;
-    color: white;
-    outline: none;
-    border: none;
-    border-radius: 5px;
-  }
-`;
+import { Box, Typography, TextField, Button } from "@mui/material";
 
 const Home: React.FC = () => {
   const [id, setId] = useState<number>(12);
@@ -42,23 +10,66 @@ const Home: React.FC = () => {
   };
 
   return (
-    <HomeContainer>
-      <h1>SportSee Project</h1>
+    <Box sx={{ marginLeft: "117px" }}>
+      <Typography
+        variant="h1"
+        sx={{
+          mt: 6,
+          mb: 2.5,
+          fontSize: 50,
+          fontWeight: 400,
+          color: "#d32f2f",
+          textAlign: "center",
+        }}
+      >
+        SportSee Project
+      </Typography>
 
-      <HomeContent>
-        <p>API Base URL: {import.meta.env.VITE_API_BASE_URL}</p>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 2,
+        }}
+      >
+        <Typography variant="body1">
+          API Base URL: {import.meta.env.VITE_API_BASE_URL}
+        </Typography>
         <label htmlFor="idprofil">
           Enter the id of the profile you want to see:{" "}
         </label>
-        <input
+        <TextField
           type="number"
           name="idprofil"
           placeholder="12"
           onChange={handleChange}
+          value={id}
+          inputProps={{ min: 0 }}
+          sx={{
+            maxWidth: 300,
+            width: "100%",
+            background: "grey",
+            borderRadius: 1,
+            "& input": {
+              color: "white",
+              padding: "10px",
+            },
+          }}
+          variant="outlined"
         />
-        <Link to={`/profil/${id}`}>Go to profile of: {id}</Link>
-      </HomeContent>
-    </HomeContainer>
+        <Button
+          component={Link}
+          to={`/profil/${id}`}
+          variant="contained"
+          color="primary"
+          sx={{ mt: 1 }}
+        >
+          Go to profile of: {id}
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

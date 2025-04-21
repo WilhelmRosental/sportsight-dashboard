@@ -1,5 +1,8 @@
 import React from "react";
-import styled from "styled-components";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import Typography from "@mui/material/Typography";
+import Avatar from "@mui/material/Avatar";
 import Fire from "../../assets/icons/calories-icon.svg";
 import Protein from "../../assets/icons/protein-icon.svg";
 import Apple from "../../assets/icons/carbs-icon.svg";
@@ -10,83 +13,79 @@ interface StatsBarProps {
   datas: KeyData;
 }
 
-//styled-components
-const StatsBarContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-`;
-
-const StatsCard = styled.div`
-  padding: 15px 25px;
-  width: 258px;
-  height: 124px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  background-color: ${(props) => props.theme.colors.cardBg};
-  border-radius: 5px;
-  z-index: 50;
-
-  img {
-    padding: 20px;
-    border-radius: 5px;
-  }
-`;
-
-const StatsTextContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-`;
-
-const StatsText = styled.p`
-  font-size: 20px;
-  font-weight: 700;
-  color: ${(props) => props.theme.colors.grey1};
-`;
-
-const StatsSubText = styled.p`
-  font-size: 14px;
-  font-weight: 500;
-  color: ${(props) => props.theme.colors.grey3};
-`;
+const stats = [
+  {
+    icon: Fire,
+    valueKey: "calorieCount",
+    label: "Calories",
+    alt: "Calories icon",
+    bg: "#FFECEC",
+  },
+  {
+    icon: Protein,
+    valueKey: "proteinCount",
+    label: "Proteines",
+    alt: "Protein icon",
+    bg: "#E9F4FB",
+  },
+  {
+    icon: Apple,
+    valueKey: "carbohydrateCount",
+    label: "Glucides",
+    alt: "Carbs icon",
+    bg: "#FBF6E5",
+  },
+  {
+    icon: Burger,
+    valueKey: "lipidCount",
+    label: "Lipides",
+    alt: "Fat icon",
+    bg: "#FBEAEF",
+  },
+];
 
 const StatsBar: React.FC<StatsBarProps> = ({ datas }) => {
   return (
-    <StatsBarContainer>
-      <StatsCard>
-        <img className="statsimg__0" src={Fire} alt="" />
-        <StatsTextContainer>
-          <StatsText>{datas.calorieCount}</StatsText>
-          <StatsSubText>Calories</StatsSubText>
-        </StatsTextContainer>
-      </StatsCard>
-
-      <StatsCard>
-        <img className="statsimg__1" src={Protein} alt="" />
-        <StatsTextContainer>
-          <StatsText>{datas.proteinCount}</StatsText>
-          <StatsSubText>Proteines</StatsSubText>
-        </StatsTextContainer>
-      </StatsCard>
-
-      <StatsCard>
-        <img className="statsimg__2" src={Apple} alt="" />
-        <StatsTextContainer>
-          <StatsText>{datas.carbohydrateCount}</StatsText>
-          <StatsSubText>Glucides</StatsSubText>
-        </StatsTextContainer>
-      </StatsCard>
-
-      <StatsCard>
-        <img className="statsimg__3" src={Burger} alt="" />
-        <StatsTextContainer>
-          <StatsText>{datas.lipidCount}</StatsText>
-          <StatsSubText>Lipides</StatsSubText>
-        </StatsTextContainer>
-      </StatsCard>
-    </StatsBarContainer>
+    <Box display="flex" flexDirection="column" gap={4}>
+      {stats.map((stat, idx) => (
+        <Card
+          key={stat.label}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
+            p: "15px 25px",
+            width: 258,
+            height: 124,
+            borderRadius: 1,
+            boxShadow: "none",
+            bgcolor: (theme) => theme.palette.background.paper,
+            zIndex: 50,
+          }}
+        >
+          <Avatar
+            src={stat.icon}
+            alt={stat.alt}
+            sx={{
+              bgcolor: stat.bg,
+              width: 64,
+              height: 64,
+              p: 2,
+              borderRadius: 1,
+            }}
+            variant="rounded"
+          />
+          <Box display="flex" flexDirection="column" gap={0.5}>
+            <Typography variant="h6" fontWeight={700} color="text.primary">
+              {datas[stat.valueKey as keyof KeyData]}
+            </Typography>
+            <Typography variant="body2" fontWeight={500} color="text.secondary">
+              {stat.label}
+            </Typography>
+          </Box>
+        </Card>
+      ))}
+    </Box>
   );
 };
 
